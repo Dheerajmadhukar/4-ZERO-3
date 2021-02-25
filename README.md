@@ -6,9 +6,9 @@
 ### Introduction
 
 **4-ZERO-3**
-Tool to bypass 403/401.
+Tool to bypass 403/401. This script contain all the possible techniques to do the same. 
 
-- **NOTE** : If you see multiple [200 Ok]/bypasses as output of this tool, you must check the Content-Length. If the content-length is same for multiple [200 Ok]/bypasses means false positive.
+- **NOTE** : If you see multiple [200 Ok]/bypasses as output of this tool, you must check the Content-Length. If the content-length is same for multiple [200 Ok]/bypasses means false positive. reason of false positive may be 301/302 or ../ DON'T PANIC.
 
 ## Usage
 ```
