@@ -19,7 +19,7 @@ echo "💀💀💀💀💀💀💀💀💀"
 echo -e "     ${cyan}- twitter.com/Dheerajmadhukar : @me_dheeraj${end}"
 target=$(echo $1 | cut -d "/" -f1-3)
 domain=$(echo $1 | cut -d "/" -f3)
-path=$(echo $1 | cut -d "/" -f4 )
+path=$(echo $1 | cut -d "/" -f4- )
 echo -e ${blue}"----------------------"${end}
 echo -e ${cyan}"[+] HTTP Method Bypass"${end}
 echo -e ${blue}"----------------------"${end}
