@@ -43,6 +43,10 @@ root@me_dheeraj:$ bash 403-bypass.sh -h
     ```bash
     root@me_dheeraj:$ bash 403-bypass.sh -u https://target.com/secret --encode
     ```
+  * [ `--SQLi` ] Support MySQL mod_Security & libinjection bypasses/payloads [** New **]
+    ```bash
+    root@me_dheeraj:$ bash 403-bypass.sh -u https://target.com/secret --SQLi
+    ```
 - Complete Scan {includes all exploits/payloads} for an endpoint [ --exploit ]
 ```bash
 root@me_dheeraj:$ bash 403-bypass.sh -u https://target.com/secret --exploit
