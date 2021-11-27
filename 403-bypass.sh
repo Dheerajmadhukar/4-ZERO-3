@@ -1522,7 +1522,7 @@ function prg(){
 			'--header')
 				mode='header'
 				;;
-			'--proto')
+			'--protocol')
 				mode='proto'
 				;;
 			'--port')
