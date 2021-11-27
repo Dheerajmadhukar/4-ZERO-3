@@ -1507,6 +1507,7 @@ function 403bypass(){
 	Port_Bypass
 	HTTP_Method_Bypass
 	URL_Encode_Bypass
+	SQLi_libinjection
 }
 function prg(){
 	set +u
