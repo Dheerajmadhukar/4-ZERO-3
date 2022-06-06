@@ -1,4 +1,5 @@
 #!/bin/bash
+#Theres alot of repeated code try to improve this with a while function... maybe while read and make it a seperate file?
 #color
 red='\e[31m'
 green='\e[32m'
@@ -430,13 +431,13 @@ function HTTP_Method_Bypass(){
 	print
 
 	echo -n "POST : "
-	code=$(curl -ks "${target}" -w 'Status: ''%{http_code}',' Length : '"%{size_download}\n" -L -o /dev/null -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.162 Safari/537.36" -X POST)
+	code=$(curl -ks "${target}" -H 'Content-Length: 5' -w 'Status: ''%{http_code}',' Length : '"%{size_download}\n" -L -o /dev/null -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.162 Safari/537.36" -X POST)
 	
 	payload=$(printf "╭$(printf '%.0s─' $(seq "$((${termwidth} - 2))"))╮\n${cyan} ╰─> PAYLOAD${end} : ${green}curl -ks '${target}' -L -H 'User-Agent: Mozilla/5.0' -X POST\n${end}╰$(printf '%.0s─' $(seq "$((`tput cols` - 2))"))╯\n")
 	print
 
-	echo -n "HEAD :"
-	code=$(curl -ks "${target}" -w 'Status: ''%{http_code}',' Length : '"%{size_download}\n" -L -o /dev/null -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.162 Safari/537.36" -X HEAD)
+	echo -n "HEAD : "
+	code=$(curl -ks "${target}" -H 'Connection: close' -w 'Status: ''%{http_code}',' Length : '"%{size_download}\n" -L -o /dev/null -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.162 Safari/537.36" -X HEAD)
 	
 	payload=$(printf "╭$(printf '%.0s─' $(seq "$((${termwidth} - 2))"))╮\n${cyan} ╰─> PAYLOAD${end} : ${green}curl -ks '${target}' -L -H 'User-Agent: Mozilla/5.0' -X HEAD\n${end}╰$(printf '%.0s─' $(seq "$((`tput cols` - 2))"))╯\n")
 	print
